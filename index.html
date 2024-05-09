@@ -102,11 +102,11 @@
                 }
           }
           novaLinha += "</tr>";
-          novaLinhas += novaLinha;
+          if ( !linhaJaExistente ) {
+            novaLinhas += novaLinha;
+          }
         }
-        if ( !linhaJaExistente ) {
           corpoTabela.innerHTML += novaLinhas;
-        }
 
         document.getElementById("palavraInput").value = "";
       }
