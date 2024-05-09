@@ -3,113 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tabela de Palavras</title>
-    <style>
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      th,
-      td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-    </style>
+    <title>Analisador Lexico</title>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="style/style.css"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap">
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <h2>Adicionar Palavra</h2>
-    <input type="text" id="palavraInput" />
-    <button onclick="adicionarPalavra()">Adicionar</button>
+    <div class="conteudo">
+      <h2>Adicionar Palavras</h2>
+      <input type="text" id="palavraInput" class="input" />
+      <button onclick="adicionarPalavra()" class="button">Adicionar</button>
+      
+      <div id="exibePalavras"></div>
+      <br /><br />
+      
+      <h2>Validar Palavra</h2>
+      <input type="text" id="validaPalavraInput" class="input" />
 
-    <h2>Tabela de Palavras</h2>
-    <table id="tabelaPalavras">
-      <thead>
-        <tr>
-          <th>δ</th>
-          <th>A</th>
-          <th>B</th>
-          <th>C</th>
-          <th>D</th>
-          <th>E</th>
-          <th>F</th>
-          <th>G</th>
-          <th>H</th>
-          <th>I</th>
-          <th>J</th>
-          <th>K</th>
-          <th>L</th>
-          <th>M</th>
-          <th>N</th>
-          <th>O</th>
-          <th>P</th>
-          <th>Q</th>
-          <th>R</th>
-          <th>S</th>
-          <th>T</th>
-          <th>U</th>
-          <th>V</th>
-          <th>W</th>
-          <th>X</th>
-          <th>Y</th>
-          <th>Z</th>
-        </tr>
-      </thead>
-      <tbody id="corpoTabela"></tbody>
-    </table>
-
-    <script>
-      function adicionarPalavra() {
-        var palavra = document
-          .getElementById("palavraInput")
-          .value.trim()
-          .toUpperCase();
-        if (palavra === "") {
-          alert("Por favor, insira uma palavra.");
-          return;
-        }
-
-        var tabela = document.getElementById("tabelaPalavras");
-        var corpoTabela = document.getElementById("corpoTabela");
-        var linhas = corpoTabela.getElementsByTagName("tr");
-        for (var i = 0; i < linhas.length; i++) {
-          if (linhas[i].cells[0].innerText === palavra) {
-            alert("Esta palavra já foi adicionada.");
-            return;
-          }
-        }
-
-        var letras = palavra.split("");
-        var novaLinhas = "";
-        for (var j = 0; j < letras.length; j++) {
-          var ultimaLetra = letras.length - 1 === j;
-          var linhaJaExistente = document.getElementById("linha" + j);
-          var novaLinha = "<tr id='linha" + j + "'><td id='linha" + j + "coluna0'>q" + j + (ultimaLetra ? "*" : "") + "</td>";
-          var primeiraColunaJaExistente = document.getElementById("linha" + j + "coluna0");
-          if ( ultimaLetra && primeiraColunaJaExistente && !primeiraColunaJaExistente.innerHTML.includes("*") ) {
-            primeiraColunaJaExistente.innerHTML += "*";
-          }
-              for (var i = 65; i <= 90; i++) {
-                var letra = String.fromCharCode(i);
-                var posicaoLetra = letras[j] === letra;
-                var colunaJaExistente = document.getElementById("coluna" + i + "linha" + j);
-                novaLinha += "<td id='coluna" + i + "linha" + j + "'>" + (!colunaJaExistente && posicaoLetra ? "q" + j : "") + "</td>";
-                if ( colunaJaExistente && posicaoLetra && colunaJaExistente.innerHTML === "" ) {
-                  colunaJaExistente.innerHTML += "q" + j;
-                }
-          }
-          novaLinha += "</tr>";
-          if ( !linhaJaExistente ) {
-            novaLinhas += novaLinha;
-          }
-        }
-          corpoTabela.innerHTML += novaLinhas;
-
-        document.getElementById("palavraInput").value = "";
-      }
-    </script>
+      <h2>Tabela de Palavras</h2>
+      <table id="tabelaPalavras">
+        <thead class="tabelaPalavras">
+          <tr>
+            <th>δ</th>
+            <th>A</th>
+            <th>B</th>
+            <th>C</th>
+            <th>D</th>
+            <th>E</th>
+            <th>F</th>
+            <th>G</th>
+            <th>H</th>
+            <th>I</th>
+            <th>J</th>
+            <th>K</th>
+            <th>L</th>
+            <th>M</th>
+            <th>N</th>
+            <th>O</th>
+            <th>P</th>
+            <th>Q</th>
+            <th>R</th>
+            <th>S</th>
+            <th>T</th>
+            <th>U</th>
+            <th>V</th>
+            <th>W</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Z</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela" class="tabelaPalavras"></tbody>
+      </table>
+    </div>
   </body>
 </html>
