@@ -12,6 +12,8 @@
 
   </head>
   <body>
+    <div id="warningContainer"></div>
+
     <div class="conteudo">
       <h2>Adicionar Palavras</h2>
       <input type="text" id="palavraInput" class="input" />
@@ -22,7 +24,11 @@
       <br />
       
       <h2>Validar Palavra</h2>
-      <input type="text" id="validaPalavraInput" class="input" />
+      <input type="text" id="validaPalavraInput" class="input" oninput="validaUltimaLetraPalavra()" />
+
+      <br /><br />
+      <div id="exibePalavrasValidadas"></div>
+      <br />
 
       <h2>Tabela de Palavras</h2>
       <div class="fixaTabela">
