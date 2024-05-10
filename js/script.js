@@ -167,8 +167,8 @@ function validaLetraPalavra(letra, indice){
 
 function validaPalavra() {
   var inputPalavra = document.getElementById("validaPalavraInput").value;
-  
-  if (inputPalavra.trim() === "") {
+  inputPalavra = inputPalavra.trim();
+  if (inputPalavra === "") {
     exibirAviso("Por favor, insira uma palavra." ,false);
     return false;
   }
