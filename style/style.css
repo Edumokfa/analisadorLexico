@@ -27,16 +27,53 @@ table {
     border: 1px solid #878787;
 }
 
+#exibePalavras {
+  display: flex;
+  justify-content: flex;
+}
+
+.palavras {
+  color: white;
+  background-color: gray;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 10px;
+  margin-right: 10px;
+  min-width: 100px;
+  max-width: calc(50% - 10px);
+  position: relative;
+  margin-left: 10px;
+}
+
+.remover {
+  top: 12px;
+  right: 5px;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.fundoBotao{
+  background-color: gray;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-left: -10px;
+}
+
+.remover:hover {
+  background-color: rgb(102, 98, 98);
+}
+
 #tabelaPalavras td {
     background-color: #000;
     color: #fff;
     padding: 10px;
     text-align: center;
     border: 1px solid #878787;
-}
-
-.colunaLateral {
-    background-color: #3d0f63;
 }
 
 #tabelaPalavras td[colspan] {
@@ -49,7 +86,8 @@ table {
 }
 
 .colunaLateral{
-    border: 2px solid #222122;
+    background-color: #3d0f63 !important;
+    font-weight: bold;
 }
 
 .conteudo{

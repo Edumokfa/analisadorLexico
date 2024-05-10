@@ -1,3 +1,27 @@
+var listaPalavras = [];
+
+function exibePalavraNaTela(palavra){
+  listaPalavras.push(palavra);
+  var inputPalavra = document.getElementById("palavraInput").value;
+  var divExibePalavras = document.getElementById("exibePalavras");
+  var novoElemento = document.createElement("p");
+  novoElemento.className = "palavras";
+  novoElemento.innerText = inputPalavra;
+  
+  var novoBotao = document.createElement("button");
+  novoBotao.className = "remover fa fa-trash";
+  novoBotao.onclick = function() {
+    removePalavra(this, palavra);
+  };
+  
+  var novoDiv = document.createElement("div");
+  novoDiv.className = "fundoBotao";
+  novoDiv.appendChild(novoBotao);
+  
+  divExibePalavras.appendChild(novoElemento);
+  divExibePalavras.appendChild(novoDiv);
+}
+
 function adicionarPalavra() {
     var palavra = document
       .getElementById("palavraInput")
@@ -13,6 +37,17 @@ function adicionarPalavra() {
       return;
     }
 
+    if ( listaPalavras.includes(palavra) ) {
+      alert("Esta palavra já foi informada.");
+      return;
+    }
+    
+    exibePalavraNaTela(palavra);
+
+    preencheTabela(palavra);
+  }
+
+  function preencheTabela (palavra) {
     var corpoTabela = document.getElementById("corpoTabela");
     var linhas = corpoTabela.getElementsByTagName("tr");
     for (var i = 0; i < linhas.length; i++) {
@@ -49,4 +84,21 @@ function adicionarPalavra() {
       corpoTabela.innerHTML += novaLinhas;
 
     document.getElementById("palavraInput").value = "";
+  }
+
+  function removePalavra(botao, palavra){
+    var divPai = botao.closest(".fundoBotao").parentNode;
+    var indice = listaPalavras.indexOf(palavra);
+
+    if (indice !== -1) {
+      divPai.removeChild(botao.closest(".fundoBotao").previousElementSibling);
+      divPai.removeChild(botao.closest(".fundoBotao"));
+      listaPalavras.splice(indice, 1);
+
+      document.getElementById("corpoTabela").innerHTML = '';
+
+      listaPalavras.forEach(palavra => {
+        preencheTabela(palavra);
+      });
+    }
   }
