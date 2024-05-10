@@ -1,5 +1,6 @@
 body{
     background-color: black;
+    overflow: auto;
 }
 
 h2{
@@ -66,6 +67,17 @@ table {
 
 .remover:hover {
   background-color: rgb(102, 98, 98);
+}
+
+.fixaTabela {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#tabelaPalavras thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 #tabelaPalavras td {
@@ -200,11 +212,4 @@ table {
       110% 10%;
     background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
   }
-}
-
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
 }
