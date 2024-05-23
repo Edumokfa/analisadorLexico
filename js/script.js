@@ -66,11 +66,6 @@ function adicionarPalavra() {
   preencheTabela(palavra);
 }
 
-function validaConteudoPalavra(palavra) {
-  
-  return true;
-}
-
 function preencheTabela (palavra) {
   var corpoTabela = document.getElementById("corpoTabela");
   var linhas = corpoTabela.getElementsByTagName("tr");
@@ -86,30 +81,43 @@ function preencheTabela (palavra) {
   for (var j = 0; j < letras.length; j++) {
     var ultimaLetra = letras.length - 1 === j;
     var linhaJaExistente = document.getElementById("linha" + j);
-    var novaLinha = "<tr id='linha" + j + "'><td id='linha" + j + "coluna0' class='colunaLateral'>q" + j + (ultimaLetra ? "*" : "") + "</td>";
-    var primeiraColunaJaExistente = document.getElementById("linha" + j + "coluna0");
-    if ( ultimaLetra && primeiraColunaJaExistente && !primeiraColunaJaExistente.innerHTML.includes("*") ) {
-      primeiraColunaJaExistente.innerHTML += "*";
-    }
-    if ( !ultimaLetra ) {
-        for (var i = 65; i <= 90; i++) {
-          var letra = String.fromCharCode(i);
-          var posicaoLetra = letras[j] === letra;
-          var colunaJaExistente = document.getElementById("coluna" + i + "linha" + j);
-          novaLinha += "<td id='coluna" + i + "linha" + j + "' class='coluna'>" + (!colunaJaExistente && posicaoLetra ? "q" + j + 1 : "") + "</td>";
-          if ( colunaJaExistente && posicaoLetra && colunaJaExistente.innerHTML === "" ) {
-            colunaJaExistente.innerHTML += "q" + j + 1;
-          }
-        }
-    }
-    novaLinha += "</tr>";
+    var novaLinha = criaNovaLinhaOuAtualiza(j, false, letras);
     if ( !linhaJaExistente ) {
       novaLinhas += novaLinha;
+    }
+    
+    if ( ultimaLetra ) {
+      var posicaoFinal = j + 1;
+      var linhaFinalJaExistente = document.getElementById("linha" + posicaoFinal);
+      var linhaFinal = criaNovaLinhaOuAtualiza(posicaoFinal, true, letras);
+      if ( !linhaFinalJaExistente ) {
+        novaLinhas += linhaFinal;
+      }
     }
   }
     corpoTabela.innerHTML += novaLinhas;
 
   document.getElementById("palavraInput").value = "";
+}
+
+function criaNovaLinhaOuAtualiza (j, ultimaLetra, letras) {
+  var novaLinha = "<tr id='linha" + j + "'><td id='linha" + j + "coluna0' class='colunaLateral'>q" + j + (ultimaLetra ? "*" : "") + "</td>";
+  var primeiraColunaJaExistente = document.getElementById("linha" + j + "coluna0");
+  if ( ultimaLetra && primeiraColunaJaExistente && !primeiraColunaJaExistente.innerHTML.includes("*") ) {
+    primeiraColunaJaExistente.innerHTML += "*";
+  }
+    for (var i = 65; i <= 90; i++) {
+      var letra = String.fromCharCode(i);
+      var posicaoLetra = letras[j] === letra;
+      var proximaSentenca = j + 1;
+      var colunaJaExistente = document.getElementById("coluna" + i + "linha" + j);
+      novaLinha += "<td id='coluna" + i + "linha" + j + "' class='coluna'>" + (!colunaJaExistente && posicaoLetra && !ultimaLetra ? "q" + proximaSentenca : "") + "</td>";
+      if ( colunaJaExistente && posicaoLetra && colunaJaExistente.innerHTML === "" ) {
+        colunaJaExistente.innerHTML += "q" + proximaSentenca;
+      }
+    }
+  novaLinha += "</tr>";
+  return novaLinha;
 }
 
 function removePalavra(botao, palavra){
@@ -133,6 +141,10 @@ function resetarCores() {
   var cells = document.querySelectorAll(".coluna");
   cells.forEach(function(cell) {
       cell.style.backgroundColor = "black";
+  });
+  var cells = document.querySelectorAll(".colunaLateral");
+  cells.forEach(function(cell) {
+      cell.style.backgroundColor = "#3d0f63";
   });
 }
 
@@ -185,7 +197,7 @@ function validaPalavra() {
       }
   });
 
-  var ultimoIndice = inputPalavra.length - 1;
+  var ultimoIndice = inputPalavra.length;
   var linhaFinal = document.getElementById("linha" + ultimoIndice + "coluna0");
   var isCorreta = false;
   if (linhaFinal && linhaFinal.innerHTML.includes("*") && isPalavraValida) {
