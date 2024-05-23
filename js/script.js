@@ -91,14 +91,16 @@ function preencheTabela (palavra) {
     if ( ultimaLetra && primeiraColunaJaExistente && !primeiraColunaJaExistente.innerHTML.includes("*") ) {
       primeiraColunaJaExistente.innerHTML += "*";
     }
+    if ( !ultimaLetra ) {
         for (var i = 65; i <= 90; i++) {
           var letra = String.fromCharCode(i);
           var posicaoLetra = letras[j] === letra;
           var colunaJaExistente = document.getElementById("coluna" + i + "linha" + j);
-          novaLinha += "<td id='coluna" + i + "linha" + j + "' class='coluna'>" + (!colunaJaExistente && posicaoLetra ? "q" + j : "") + "</td>";
+          novaLinha += "<td id='coluna" + i + "linha" + j + "' class='coluna'>" + (!colunaJaExistente && posicaoLetra ? "q" + j + 1 : "") + "</td>";
           if ( colunaJaExistente && posicaoLetra && colunaJaExistente.innerHTML === "" ) {
-            colunaJaExistente.innerHTML += "q" + j;
+            colunaJaExistente.innerHTML += "q" + j + 1;
           }
+        }
     }
     novaLinha += "</tr>";
     if ( !linhaJaExistente ) {
