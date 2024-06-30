@@ -66,58 +66,77 @@ function adicionarPalavra() {
   preencheTabela(palavra);
 }
 
-function preencheTabela (palavra) {
+function preencheTabela(palavra) {
   var corpoTabela = document.getElementById("corpoTabela");
-  var linhas = corpoTabela.getElementsByTagName("tr");
-  for (var i = 0; i < linhas.length; i++) {
-    if (linhas[i].cells[0].innerText === palavra) {
-      alert("Esta palavra já foi adicionada.");
-      return;
-    }
-  }
 
   var letras = palavra.split("");
-  var novaLinhas = "";
+  
   for (var j = 0; j < letras.length; j++) {
     var ultimaLetra = letras.length - 1 === j;
     var linhaJaExistente = document.getElementById("linha" + j);
     var novaLinha = criaNovaLinhaOuAtualiza(j, false, letras);
-    if ( !linhaJaExistente ) {
-      novaLinhas += novaLinha;
+
+    if (!linhaJaExistente) {
+      corpoTabela.appendChild(novaLinha);
     }
-    
-    if ( ultimaLetra ) {
+
+    if (ultimaLetra) {
       var posicaoFinal = j + 1;
       var linhaFinalJaExistente = document.getElementById("linha" + posicaoFinal);
       var linhaFinal = criaNovaLinhaOuAtualiza(posicaoFinal, true, letras);
-      if ( !linhaFinalJaExistente ) {
-        novaLinhas += linhaFinal;
+
+      if (!linhaFinalJaExistente) {
+        corpoTabela.appendChild(linhaFinal);
       }
     }
   }
-    corpoTabela.innerHTML += novaLinhas;
 
   document.getElementById("palavraInput").value = "";
 }
 
-function criaNovaLinhaOuAtualiza (j, ultimaLetra, letras) {
-  var novaLinha = "<tr id='linha" + j + "'><td id='linha" + j + "coluna0' class='colunaLateral'>q" + j + (ultimaLetra ? "*" : "") + "</td>";
-  var primeiraColunaJaExistente = document.getElementById("linha" + j + "coluna0");
-  if ( ultimaLetra && primeiraColunaJaExistente && !primeiraColunaJaExistente.innerHTML.includes("*") ) {
-    primeiraColunaJaExistente.innerHTML += "*";
+function criaNovaLinhaOuAtualiza(j, ultimaLetra, letras) {
+  var linha = document.getElementById('linha' + j);
+  if (!linha) {
+    linha = document.createElement('tr');
+    linha.id = 'linha' + j;
   }
-    for (var i = 65; i <= 90; i++) {
-      var letra = String.fromCharCode(i);
-      var posicaoLetra = letras[j] === letra;
-      var proximaSentenca = j + 1;
-      var colunaJaExistente = document.getElementById("coluna" + i + "linha" + j);
-      novaLinha += "<td id='coluna" + i + "linha" + j + "' class='coluna'>" + (!colunaJaExistente && posicaoLetra && !ultimaLetra ? "q" + proximaSentenca : "") + "</td>";
-      if ( colunaJaExistente && posicaoLetra && colunaJaExistente.innerHTML === "" ) {
-        colunaJaExistente.innerHTML += "q" + proximaSentenca;
-      }
+
+  var primeiraColuna = document.getElementById('linha' + j + 'coluna0');
+  if (!primeiraColuna) {
+    primeiraColuna = document.createElement('td');
+    primeiraColuna.id = 'linha' + j + 'coluna0';
+    primeiraColuna.className = 'colunaLateral';
+    linha.appendChild(primeiraColuna);
+  }
+
+  primeiraColuna.textContent = 'q' + j + (ultimaLetra ? '*' : '');
+  if (ultimaLetra && !primeiraColuna.innerHTML.includes('*')) {
+    primeiraColuna.innerHTML += '*';
+  }
+
+  //65 = A na tabela ascii, 90 = Z
+  for (var i = 65; i <= 90; i++) {
+    var letra = String.fromCharCode(i);
+    var posicaoLetra = letras[j] === letra;
+    var proximaSentenca = j + 1;
+    var colunaId = 'coluna' + i + 'linha' + j;
+    var coluna = document.getElementById(colunaId);
+
+    if (!coluna) {
+      coluna = document.createElement('td');
+      coluna.id = colunaId;
+      coluna.className = 'coluna';
+      linha.appendChild(coluna);
     }
-  novaLinha += "</tr>";
-  return novaLinha;
+
+    if (posicaoLetra && !ultimaLetra && coluna.innerHTML === '') {
+      coluna.textContent = 'q' + proximaSentenca;
+    } else if (coluna.innerHTML === '') {
+      coluna.innerHTML = '';
+    }
+  }
+
+  return linha;
 }
 
 function removePalavra(botao, palavra){
@@ -162,19 +181,20 @@ function validaUltimaLetraPalavra() {
   validaLetraPalavra(ultimaLetra, ultimoIndice);
 }
 
-function validaLetraPalavra(letra, indice){
+function validaLetraPalavra(letra, indice) {
   var charCodeLetra = letra.toUpperCase().charCodeAt(0);
-  var coluna = document.getElementById("coluna" + charCodeLetra + "linha" + indice);
+  var colunaId = "coluna" + charCodeLetra + "linha" + indice;
+  var coluna = document.getElementById(colunaId);
 
-  if ( coluna == null ) {
+  if (coluna == null) {
     return null;
   }
 
-  if ( coluna.innerHTML !== "" ) {
-    coluna.style = "background-color: green"
+  if (coluna.innerHTML !== "") {
+    coluna.style.backgroundColor = "green";
     return true;
   } else {
-    coluna.style = "background-color: red"
+    coluna.style.backgroundColor = "red";
     return false;
   }
 }
@@ -211,17 +231,19 @@ function validaPalavra() {
   exibePalavraValidadaNaTela(inputPalavra, isCorreta);
 }
 
-function exibePalavraValidadaNaTela(palavra, isCorreta){
+function exibePalavraValidadaNaTela(palavra, isCorreta) {
   listaPalavras.push(palavra);
+  
   var divExibePalavras = document.getElementById("exibePalavrasValidadas");
   var novoElemento = document.createElement("p");
-  if ( isCorreta ) {
-    novoElemento.className = "palavrasCorretas";
+  novoElemento.textContent = palavra;
+
+  if (isCorreta) {
+    novoElemento.classList.add("palavrasCorretas");
   } else {
-    novoElemento.className = "palavrasIncorretas";
+    novoElemento.classList.add("palavrasIncorretas");
   }
-  novoElemento.innerText = palavra;
-  
+
   divExibePalavras.appendChild(novoElemento);
 }
 
