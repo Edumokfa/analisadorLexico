@@ -107,9 +107,9 @@ function criaNovaLinhaOuAtualiza(j, ultimaLetra, letras) {
     primeiraColuna.id = 'linha' + j + 'coluna0';
     primeiraColuna.className = 'colunaLateral';
     linha.appendChild(primeiraColuna);
+    primeiraColuna.textContent = 'q' + j + (ultimaLetra ? '*' : '');
   }
 
-  primeiraColuna.textContent = 'q' + j + (ultimaLetra ? '*' : '');
   if (ultimaLetra && !primeiraColuna.innerHTML.includes('*')) {
     primeiraColuna.innerHTML += '*';
   }
